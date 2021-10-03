@@ -1,0 +1,11 @@
+.heroImg img {
+  width: 100%;
+}
+
+.profileImg img {
+  width: 250px;
+}
+
+.descriptionBlock {
+  padding: 10px;
+}
