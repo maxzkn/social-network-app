@@ -3,6 +3,7 @@ import landscape from "../../../assets/images/landscape.jpg";
 import profile from "../../../assets/images/profile.jpg";
 import Preloader from "../../common/preloader/Preloader";
 import classes from "./ProfileInfo.module.css";
+import ProfileStatus from "./ProfileStatus";
 
 const ProfileInfo = (props) => {
 
@@ -31,6 +32,7 @@ const ProfileInfo = (props) => {
         <div className={classes.profileImg}>
           <img src={userImage ? userImage : profile}></img>
         </div>
+        <ProfileStatus userStatus={props.userStatus} updateUserStatus={props.updateUserStatus} />
         <div>{props.profile.fullName}</div>
         <div>{props.profile.aboutMe}</div>
         <div>

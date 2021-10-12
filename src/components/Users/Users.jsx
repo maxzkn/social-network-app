@@ -2,7 +2,6 @@ import React from "react";
 import styles from './Users.module.css';
 import defaultPic from '../../assets/images/avatar.png';
 import { NavLink } from "react-router-dom";
-import { usersAPI } from "../../api/api";
 
 // const Users = (props) => {
 
@@ -69,21 +68,15 @@ const Users = (props) => {
                 {/* <div>{"user.location.city"}</div> */}
                 <div>
                 {user.followed ? (
-                    <button onClick={ () => {
-                        usersAPI.unfollowUser(user.id).then( data => {
-                            if (data.resultCode === 0) {
-                                props.unfollowUser(user.id)
-                            }
-                        })
-                    }}>Unfollow</button>
+                    <button disabled={props.userFollowInProgress.some(id => id === user.id)}
+                            onClick={ () => { props.unfollowUser(user.id) } }>
+                        Unfollow
+                    </button>
                 ) : (
-                    <button onClick={ () => {
-                        usersAPI.followUser(user.id).then( data => {
-                            if (data.resultCode === 0) {
-                                props.followUser(user.id)
-                            }
-                        })
-                    }}>Follow</button>
+                    <button disabled={props.userFollowInProgress.some(id => id === user.id)}
+                            onClick={ () => { props.followUser(user.id) } }>
+                        Follow
+                    </button>
                 )}
                 </div>
             </div>
