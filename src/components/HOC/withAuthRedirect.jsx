@@ -7,14 +7,16 @@ let mapStateToProps = (state) => ({
 });
 
 export const WithAuthRedirect = (Component) => {
-    class ContainerWrapper extends React.Component {
+    // const componentName = Component.WrappedComponent.name;
+    class RedirectComponent extends React.Component {
         render() {
             if(!this.props.isAuth) return <Redirect to={"/login"}/>
+            // return componentName === 'Login' ? <Redirect to={"/profile"} /> : <Component {...this.props} />
             return <Component {...this.props} />
         }
     }
 
-    return connect(mapStateToProps)(ContainerWrapper);
+    return connect(mapStateToProps)(RedirectComponent);
 }
 
 export default WithAuthRedirect;

@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 // const Users = (props) => {
 
-//  let getUsers = () => {
+//  let requestUsers = () => {
 //     if (props.users.length == 0) {
 //         axios.get('https://social-network.samuraijs.com/api/1.0/users').then( response => {
 //            props.setUsers(response.data.items);
@@ -15,7 +15,7 @@ import { NavLink } from "react-router-dom";
 
 //   return (
 //     <div>
-//       <button onClick={getUsers}>Fetch users</button>
+//       <button onClick={requestUsers}>Fetch users</button>
 //       {props.users.map( user => 
 //         <div key={user.id}>
 //           <div>

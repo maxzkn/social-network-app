@@ -6,3 +6,7 @@
 .header img {
   width: 60px;
 }
+
+.right {
+  float: right;
+}
