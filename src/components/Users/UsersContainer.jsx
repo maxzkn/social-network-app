@@ -9,7 +9,15 @@ import {
 import Users from "./Users";
 import Preloader from "../common/preloader/Preloader";
 import {compose} from "redux";
-import { getPageSize, getCurrentPage, getIsFetching, getTotalUsersCount, getUserFollowInProgress, getUsers } from "../selectors/users-selectors";
+import {
+    getPageSize,
+    getCurrentPage,
+    getIsFetching,
+    getTotalUsersCount,
+    getUserFollowInProgress,
+    getUsers,
+    // getUsersSuperSelector
+} from "../selectors/users-selectors";
 
 // TWO containers here:
 // UsersContainer is wrapped with another container by connect()
@@ -23,7 +31,8 @@ class UsersContainer extends React.Component {
     // }
 
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize);
+        const { currentPage, pageSize } = this.props;
+        this.props.requestUsers(currentPage, pageSize);
         // this.props.toggleIsFetching(true);
         // usersAPI.requestUsers(this.props.currentPage, this.props.pageSize).then( data => {
         //     this.props.toggleIsFetching(false);
@@ -33,7 +42,8 @@ class UsersContainer extends React.Component {
     }
 
     onPageChange = pageNumber => {
-        this.props.getUsers(pageNumber, this.props.pageSize);
+        const { pageSize } = this.props;
+        this.props.requestUsers(pageNumber, pageSize);
     }
 
     render() {
@@ -70,6 +80,7 @@ class UsersContainer extends React.Component {
 let mapStateToProps = (state) => {
   return {
     users: getUsers(state),
+    // users: getUsersSuperSelector(state),
     pageSize: getPageSize(state),
     currentPage: getCurrentPage(state),
     totalUsersCount: getTotalUsersCount(state),
@@ -111,5 +122,5 @@ let mapStateToProps = (state) => {
 //     requestUsers
 // })(UsersContainer));
 export default compose(
-    connect(mapStateToProps, { followUser, unfollowUser, getUsers: requestUsers})
+    connect(mapStateToProps, { followUser, unfollowUser, requestUsers })
 )(UsersContainer);

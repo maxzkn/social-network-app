@@ -1,21 +1,21 @@
 import React from "react";
 import landscape from "../../../assets/images/landscape.jpg";
-import profile from "../../../assets/images/profile.jpg";
+import profileImage from "../../../assets/images/profile.jpg";
 import Preloader from "../../common/preloader/Preloader";
 import classes from "./ProfileInfo.module.css";
 import ProfileStatus from "./ProfileStatus";
 
-const ProfileInfo = (props) => {
+const ProfileInfo = ({ profile, updateUserStatus, userStatus }) => {
 
-  if (!props.profile) {
+  if (!profile) {
     return <Preloader />;
   }
 
-  let userImage = props.profile.photos.large;
+  let userImage = profile.photos.large;
   
   let showContacts = () => {
     let contacts = [];
-    for (let [key, value] of Object.entries(props.profile.contacts)) {
+    for (let [key, value] of Object.entries(profile.contacts)) {
       if (value) {
         contacts.push({key, value});
       }
@@ -30,16 +30,16 @@ const ProfileInfo = (props) => {
       </div>
       <div className={classes.descriptionBlock}>
         <div className={classes.profileImg}>
-          <img src={userImage ? userImage : profile}></img>
+          <img src={userImage ? userImage : profileImage}></img>
         </div>
-        <ProfileStatus userStatus={props.userStatus} updateUserStatus={props.updateUserStatus} />
-        <div>{props.profile.fullName}</div>
-        <div>{props.profile.aboutMe}</div>
+        <ProfileStatus userStatus={userStatus} updateUserStatus={updateUserStatus} />
+        <div>{profile.fullName}</div>
+        <div>{profile.aboutMe}</div>
         <div>
           {showContacts()}
         </div>
         <div>
-          <div>{props.profile.lookingForAJob ? 'Looking for a job: ' + props.profile.lookingForAJobDescription : 'Just for fun'}</div>
+          <div>{profile.lookingForAJob ? 'Looking for a job: ' + profile.lookingForAJobDescription : 'Just for fun'}</div>
         </div>
       </div>
     </div>

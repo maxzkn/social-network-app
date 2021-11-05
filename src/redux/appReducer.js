@@ -23,10 +23,7 @@ export default appReducer;
 export const initializedSuccess = () => ({type: SET_INITIALIZED});
 
 export const initializeApp = () => async (dispatch) => {
-  // await dispatch(setUserData());
-  // dispatch(initializedSuccess());
   let promise = dispatch(setUserData());
-  Promise.all([promise]).then(() => {
-    dispatch(initializedSuccess());
-  })
+  await Promise.all([promise]);
+  dispatch(initializedSuccess());
 };
