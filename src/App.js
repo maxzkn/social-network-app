@@ -2,9 +2,9 @@ import React from "react";
 import {BrowserRouter, Route, withRouter} from "react-router-dom";
 import "./App.css";
 import { Navbar, News, Music, Settings } from "./components";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
+// import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
+// import ProfileContainer from "./components/Profile/ProfileContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import LoginPage from "./components/Login/Login";
 import {connect, Provider} from "react-redux";
@@ -12,6 +12,9 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/appReducer";
 import Preloader from "./components/common/preloader/Preloader";
 import store from "./redux/redux-store";
+
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
 
 // const SomeComponent = (props) => {
 //   return <Profile posts={props.posts} />
@@ -31,20 +34,22 @@ class App extends React.Component {
                 <HeaderContainer />
                 <Navbar />
                 <div className="app-wrapper-content">
-                    {/* <Route path='/profile' component={Profile} />
-                    <Route exact path='/dialogs' component={Dialogs} /> */}
-                    {/* <Route path='/profile' component={ SomeComponent } /> */}
-                    {/* <Route path='/profile' component={ () => SomeComponent } /> */}
-                    {/* <Route path='/profile' component={ () => <Profile posts={props.posts} /> } /> */}
-                    {/* <Route path='/profile' render={ () => <Profile profilePage={props.state.profilePage} dispatch={props.dispatch} /> } /> */}
-                    <Route path='/profile/:userId?' render={ () => <ProfileContainer /> } />
-                    {/* <Route exact path='/dialogs' render={ () => <Dialogs dialogsPage={props.state.dialogsPage} dispatch={props.dispatch} /> } /> */}
-                    <Route exact path='/dialogs' render={ () => <DialogsContainer /> } />
-                    <Route path='/news' component={News} />
-                    <Route path='/music' component={Music} />
-                    <Route path='/settings' component={Settings} />
-                    <Route path='/users' render={ () => <UsersContainer /> } />
-                    <Route path='/login' render={ () => <LoginPage /> } />
+                    <React.Suspense fallback={<Preloader />}>
+                        {/* <Route path='/profile' component={Profile} />
+                        <Route exact path='/dialogs' component={Dialogs} /> */}
+                        {/* <Route path='/profile' component={ SomeComponent } /> */}
+                        {/* <Route path='/profile' component={ () => SomeComponent } /> */}
+                        {/* <Route path='/profile' component={ () => <Profile posts={props.posts} /> } /> */}
+                        {/* <Route path='/profile' render={ () => <Profile profilePage={props.state.profilePage} dispatch={props.dispatch} /> } /> */}
+                        <Route path='/profile/:userId?' render={ () => <ProfileContainer /> } />
+                        {/* <Route exact path='/dialogs' render={ () => <Dialogs dialogsPage={props.state.dialogsPage} dispatch={props.dispatch} /> } /> */}
+                        <Route exact path='/dialogs' render={ () => <DialogsContainer /> } />
+                        <Route path='/news' component={News} />
+                        <Route path='/music' component={Music} />
+                        <Route path='/settings' component={Settings} />
+                        <Route path='/users' render={ () => <UsersContainer /> } />
+                        <Route path='/login' render={ () => <LoginPage /> } />
+                    </React.Suspense>
                 </div>
             </div>
         );

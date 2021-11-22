@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-// import { followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, toggleIsFetchingAC, unfollowAC } from "../../redux/usersReducer";
+// import { followAC, setCurrentPageAC, settotalItemsCountAC, setUsersAC, toggleIsFetchingAC, unfollowAC } from "../../redux/usersReducer";
 import {
     followUser,
     unfollowUser,
-    requestUsers
+    requestUsers, changePortionNumber
 } from "../../redux/usersReducer";
 import Users from "./Users";
 import Preloader from "../common/preloader/Preloader";
@@ -13,9 +13,9 @@ import {
     getPageSize,
     getCurrentPage,
     getIsFetching,
-    getTotalUsersCount,
+    gettotalItemsCount,
     getUserFollowInProgress,
-    getUsers,
+    getUsers, getPortionNumber,
     // getUsersSuperSelector
 } from "../selectors/users-selectors";
 
@@ -37,7 +37,7 @@ class UsersContainer extends React.Component {
         // usersAPI.requestUsers(this.props.currentPage, this.props.pageSize).then( data => {
         //     this.props.toggleIsFetching(false);
         //     this.props.setUsers(data.items);
-        //     this.props.setTotalUsersCount(data.totalCount);
+        //     this.props.settotalItemsCount(data.totalCount);
         // });
     }
 
@@ -46,15 +46,21 @@ class UsersContainer extends React.Component {
         this.props.requestUsers(pageNumber, pageSize);
     }
 
+    // onPortionNumberChange = portionNumber => {
+    //     this.props.changePortionNumber(portionNumber);
+    // }
+
     render() {
         return (
             <>
                 {this.props.isFetching ? <Preloader /> : 
                     <Users
                         pageSize={this.props.pageSize}
-                        totalUsersCount={this.props.totalUsersCount}
+                        portionNumber={this.props.portionNumber}
+                        totalItemsCount={this.props.totalItemsCount}
                         currentPage={this.props.currentPage}
                         onPageChange={this.onPageChange}
+                        // onPortionNumberChange={this.onPortionNumberChange}
                         followUser={this.props.followUser}
                         unfollowUser={this.props.unfollowUser}
                         users={this.props.users}
@@ -71,7 +77,7 @@ class UsersContainer extends React.Component {
 //     users: state.usersPage.users,
 //     pageSize: state.usersPage.pageSize,
 //     currentPage: state.usersPage.currentPage,
-//     totalUsersCount: state.usersPage.totalUsersCount,
+//     totalItemsCount: state.usersPage.totalItemsCount,
 //     isFetching: state.usersPage.isFetching,
 //     userFollowInProgress: state.usersPage.userFollowInProgress
 //   };
@@ -83,9 +89,10 @@ let mapStateToProps = (state) => {
     // users: getUsersSuperSelector(state),
     pageSize: getPageSize(state),
     currentPage: getCurrentPage(state),
-    totalUsersCount: getTotalUsersCount(state),
+    totalItemsCount: gettotalItemsCount(state),
     isFetching: getIsFetching(state),
-    userFollowInProgress: getUserFollowInProgress(state)
+    userFollowInProgress: getUserFollowInProgress(state),
+    // portionNumber: getPortionNumber(state),
   };
 };
 
@@ -103,8 +110,8 @@ let mapStateToProps = (state) => {
 //     setCurrentPage: (page) => {
 //         dispatch(setCurrentPageAC(page));
 //     },
-//     setTotalUsersCount: (totalUsers) => {
-//         dispatch(setTotalUsersCountAC(totalUsers));
+//     settotalItemsCount: (totalUsers) => {
+//         dispatch(settotalItemsCountAC(totalUsers));
 //     },
 //     toggleIsFetching: (isFetching) => {
 //         dispatch(toggleIsFetchingAC(isFetching));
@@ -122,5 +129,5 @@ let mapStateToProps = (state) => {
 //     requestUsers
 // })(UsersContainer));
 export default compose(
-    connect(mapStateToProps, { followUser, unfollowUser, requestUsers })
+    connect(mapStateToProps, { followUser, unfollowUser, requestUsers, /* changePortionNumber */ })
 )(UsersContainer);

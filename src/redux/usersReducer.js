@@ -8,12 +8,14 @@ const SET_CURRENT_PAGE = "SET-CURRENT-PAGE";
 const SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT";
 const TOGGLE_IS_FETCHING = "TOGGLE-IS-FETCHING";
 const TOGGLE_FOLLOWING_IN_PROGRESS = "TOGGLE-FOLLOWING-IN-PROGRESS";
+// const SET_PORTION_NUMBER = "SET-PORTION-NUMBER";
 
 let initialState = {
   users: [],
-  pageSize: 5,
+  pageSize: 10,
   currentPage: 1,
-  totalUsersCount: 0,
+  // portionNumber: 1,
+  totalItemsCount: 0,
   isFetching: false,
   userFollowInProgress: []
 };
@@ -47,10 +49,15 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         currentPage: action.currentPage
       };
+    // case SET_PORTION_NUMBER:
+    //   return {
+    //     ...state,
+    //     portionNumber: action.portionNumber
+    //   };
     case SET_TOTAL_USERS_COUNT:
       return {
         ...state,
-        totalUsersCount: action.totalUsers
+        totalItemsCount: action.totalUsers
       }
     case TOGGLE_IS_FETCHING:
       return {
@@ -91,6 +98,8 @@ export const unfollow = (userId) => {
 // export const setUsersAC = (users) => ({ type: SET_USERS, users });
 export const setUsers = (users) => ({ type: SET_USERS, users });
 
+// export const changePortionNumber = (portionNumber) => ({ type: SET_PORTION_NUMBER, portionNumber });
+
 //getUsersThunkCreator
 export const requestUsers = (page, pageSize) => async (dispatch) => {
   dispatch(toggleIsFetching(true));
@@ -99,13 +108,13 @@ export const requestUsers = (page, pageSize) => async (dispatch) => {
   // usersAPI.getUsers(page, pageSize).then( data => {
   //           dispatch(toggleIsFetching(false));
   //           dispatch(setUsers(data.items));
-  //           dispatch(setTotalUsersCount(data.totalCount));
+  //           dispatch(settotalItemsCount(data.totalCount));
   // });
 
   let data = await usersAPI.getUsers(page, pageSize)
   dispatch(toggleIsFetching(false));
   dispatch(setUsers(data.items));
-  dispatch(setTotalUsersCount(data.totalCount));
+  dispatch(settotalItemsCount(data.totalCount));
 }
 
 const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) => {
@@ -133,8 +142,8 @@ export const followUser = (userId) => async (dispatch) => {
 // export const setCurrentPageAC = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage });
 export const setCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage });
 
-// export const setTotalUsersCountAC = (totalUsers) => ({ type: SET_TOTAL_USERS_COUNT, totalUsers });
-export const setTotalUsersCount = (totalUsers) => ({ type: SET_TOTAL_USERS_COUNT, totalUsers });
+// export const settotalItemsCountAC = (totalUsers) => ({ type: SET_TOTAL_USERS_COUNT, totalUsers });
+export const settotalItemsCount = (totalUsers) => ({ type: SET_TOTAL_USERS_COUNT, totalUsers });
 
 // export const toggleIsFetchingAC = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 export const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });

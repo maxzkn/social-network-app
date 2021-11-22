@@ -27,12 +27,16 @@ export const getPageSize = (state) => {
     return state.usersPage.pageSize;
 };
 
+export const getPortionNumber = (state) => {
+    return state.usersPage.portionNumber;
+};
+
 export const getCurrentPage = (state) => {
     return state.usersPage.currentPage;
 };
 
-export const getTotalUsersCount = (state) => {
-    return state.usersPage.totalUsersCount;
+export const gettotalItemsCount = (state) => {
+    return state.usersPage.totalItemsCount;
 };
 
 export const getUserFollowInProgress = (state) => {
