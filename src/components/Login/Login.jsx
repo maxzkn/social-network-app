@@ -12,12 +12,18 @@ import styles from "../common/FormControls/FormControls.module.css";
 const maxLength30 = maxLengthCreator(30);
 const Input = FormControl("input");
 
-const LoginForm = ({ handleSubmit, error }) => {
+const LoginForm = ({handleSubmit, error, captchaURL}) => {
     return (
         <form onSubmit={handleSubmit}>
             {createField("Email", "email", Input, [required, maxLength30])}
             {createField("Password", "password", Input, [required, maxLength30], {type: "password"})}
             {createField(null, "rememberMe", Input, null, {type: "checkbox"}, "Remember me")}
+            {captchaURL &&
+            <div>
+                <img className={styles.captcha} src={captchaURL} alt="captcha"/>
+                {createField("Symbols from image", "captcha", Input, [required])}
+            </div>
+            }
             {error &&
             <div className={styles.formSummaryError}>
                 {error}
@@ -36,24 +42,25 @@ const LoginReduxForm = reduxForm({
 
 const Login = (props) => {
     const onSubmit = (formData) => {
-        const { email, password, rememberMe } = formData;
-        props.login(email, password, rememberMe);
+        const {email, password, rememberMe, captcha} = formData;
+        props.login(email, password, rememberMe, captcha);
     }
 
     if (props.isAuth) {
-        return <Redirect to={"/profile"} />
+        return <Redirect to={"/profile"}/>
     }
 
     return (
         <div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit} />
+            <LoginReduxForm onSubmit={onSubmit} captchaURL={props.captchaURL}/>
         </div>
     );
 };
 
 let mapStateToProps = (state) => ({
-    isAuth: state.authState.isAuth
+    isAuth: state.authState.isAuth,
+    captchaURL: state.authState.captchaURL,
 })
 
 // login, logout - это не санк креаторы здесь а колбеки (login callback redux: login thunkcreator наш) которые попадают в пропсы Логин
