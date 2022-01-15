@@ -12,6 +12,7 @@ const Profile = (props) => {
                    updateUserStatus={props.updateUserStatus}
                    saveProfilePhoto={props.saveProfilePhoto}
                    saveProfile={props.saveProfile}
+                   globalError={props.globalError}
       />
       {/* <MyPosts posts={props.profilePage.posts} newPostText={props.profilePage.newPostText} addPost={props.store.addPost.bind(props.store)} updateNewPostText={props.store.updateNewPostText.bind(props.store)} /> */}
       <MyPostsContainer />

@@ -37,6 +37,7 @@ class ProfileContainer extends React.Component {
           saveProfilePhoto={this.props.saveProfilePhoto}
           saveProfile={this.props.saveProfile}
           isOwner={!this.props.match.params.userId}
+          globalError={this.props.globalError}
           {...this.props} />
     );
   }
@@ -46,7 +47,8 @@ let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   userStatus: state.profilePage.userStatus,
   loggedInUser: state.authState.userId,
-  isAuth: state.authState.isAuth
+  isAuth: state.authState.isAuth,
+  globalError: state.profilePage.globalError
 });
 
 // let withRedirect = WithAuthRedirect(ProfileContainer)

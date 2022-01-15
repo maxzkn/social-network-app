@@ -6,7 +6,7 @@ import classes from "./ProfileInfo.module.css";
 import ProfileStatus from "./ProfileStatus";
 import ProfileDataForm from "./ProfileDataForm";
 
-const ProfileInfo = ({ isOwner, profile, updateUserStatus, userStatus, saveProfilePhoto, saveProfile }) => {
+const ProfileInfo = ({ isOwner, profile, updateUserStatus, userStatus, saveProfilePhoto, saveProfile, globalError }) => {
 
   const [editMode, setEditMode] = useState(false);
 
@@ -56,7 +56,7 @@ const ProfileInfo = ({ isOwner, profile, updateUserStatus, userStatus, saveProfi
         <div className={classes.profileImg}>
           <img src={userImage || profileImage}></img>
         </div>
-        <ProfileStatus userStatus={userStatus} updateUserStatus={updateUserStatus} />
+        <ProfileStatus userStatus={userStatus} updateUserStatus={updateUserStatus} globalError={globalError} />
         {editMode ?
             <ProfileDataForm initialValues={profile} profile={profile} onSubmit={onSubmit} /> :
             <ProfileData activateEditMode={() => {setEditMode(true)}} profile={profile} isOwner={isOwner} />}

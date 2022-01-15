@@ -1,3 +1,14 @@
 .activePage {
     font-weight: bold;
 }
+
+.pageNumber {
+    padding: 0 5px;
+    margin: 03px;
+    border: black solid 1px;
+    border-radius: 2px;
+}
+
+.pages {
+    padding: 5px 0;
+}

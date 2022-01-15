@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from './Paginator.module.css';
+import cn from "classnames";
 
 const Paginator = ({
                        totalItemsCount,
@@ -40,27 +41,28 @@ const Paginator = ({
     },[currentPage]);
 
     return (
-        <div>
-            <div>
-                {/* если текущая порция первая ([1]...[10]) то кнопку PREV не показывать, если 2ая или больще - показывать */}
-                {portionNumber > 1 && <button onClick={ () => {setPortionNumber(portionNumber - 1)} }>PREV</button>}
-                {/* возващаем новый массив с помощью фильтрации - фильтруем только те страницы, */}
-                {/* которые больше либо равны чем левая граница текущей порции и меньше либо равны чем правая граница порции */}
-                {/* например в порции [1][2]...[10]: [1] страница === [1] (левая граница) && [1] < [10] (правая граница) - возвращает true и страница [1] записывается в массив */}
-                {/* ... */}
-                {/* так же [10] страница > [1] (левая граница) && [10] === [10] (правая граница) - возвращает true и страница [10] записывается в массив */}
-                {pages
-                    .filter(page => page >= portionPageNumberLeft && page <= portionPageNumberRight)
-                    .map( (page, idx) =>
-                        <span key={idx}
-                              className={ currentPage === page ? styles.activePage : '' }
-                              onClick={ () => {onPageChange(page)} }>
-                            {page}
-                        </span>
-                )}
-                {/* если чисто максимального кол-ва порций (последней) больше чем число текущей порции (макс (последняя) 10 > 6 текущая) то кнопку NEXT показывать */}
-                {portionCount > portionNumber && <button onClick={ () => {setPortionNumber(portionNumber + 1)} }>NEXT</button>}
-            </div>
+        <div className={styles.pages}>
+            {/* если текущая порция первая ([1]...[10]) то кнопку PREV не показывать, если 2ая или больше - показывать */}
+            {portionNumber > 1 && <button onClick={ () => {setPortionNumber(portionNumber - 1)} }>PREV</button>}
+            {/* возващаем новый массив с помощью фильтрации - фильтруем только те страницы, */}
+            {/* которые больше либо равны чем левая граница текущей порции и меньше либо равны чем правая граница порции */}
+            {/* например в порции [1][2]...[10]: [1] страница === [1] (левая граница) && [1] < [10] (правая граница) - возвращает true и страница [1] записывается в массив */}
+            {/* ... */}
+            {/* так же [10] страница > [1] (левая граница) && [10] === [10] (правая граница) - возвращает true и страница [10] записывается в массив */}
+            {pages
+                .filter(page => page >= portionPageNumberLeft && page <= portionPageNumberRight)
+                .map(page =>
+                    <span key={page}
+                          // className={ currentPage === page ? styles.activePage : '' }
+                          className={cn({
+                              [styles.activePage]: currentPage === page // так как свойством обьекта не может быть переменная, но если в переменной сидит строка то свойство обрамляем []
+                          }, styles.pageNumber)}
+                          onClick={ () => {onPageChange(page)} }>
+                        {page}
+                    </span>
+            )}
+            {/* если число максимального кол-ва порций (последней) больше чем число текущей порции (макс (последняя) 10 > 6 текущая) то кнопку NEXT показывать */}
+            {portionCount > portionNumber && <button onClick={ () => {setPortionNumber(portionNumber + 1)} }>NEXT</button>}
         </div>
     )
 }

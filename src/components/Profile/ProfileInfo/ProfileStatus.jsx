@@ -94,20 +94,25 @@ const ProfileStatus = (props) => {
     }, [props.userStatus]);
 
     return (
-        <div>
-            {isEditMode ?
-                <div>
-                    <input autoFocus={true}
-                           onBlur={deactivateEditMode}
-                           value={status}
-                           onChange={onStatusChange}
-                    />
-                </div> :
-                <div>
-                   <span onDoubleClick={activateEditMode}>{props.userStatus || "Put your status here!"}</span>
-                </div>
-            }
-        </div>
+        <>
+            <div>
+                {isEditMode ?
+                    <div>
+                        <input autoFocus={true}
+                               onBlur={deactivateEditMode}
+                               value={status}
+                               onChange={onStatusChange}
+                        />
+                    </div> :
+                    <div>
+                       <span onDoubleClick={activateEditMode}>{props.userStatus || "Put your status here!"}</span>
+                    </div>
+                }
+            </div>
+            {props.globalError && <div style={{color: "darkred", padding: "10px", border: "1px solid darkred", margin: "5px 0"}}>
+                {props.globalError.toString()}
+            </div>}
+        </>
     );
 };
 

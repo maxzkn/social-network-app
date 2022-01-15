@@ -6,6 +6,7 @@ const DELETE_POST = "DELETE-POST";
 const SET_USER_PROFILE = "SET-USER-PROFILE";
 const SET_USER_STATUS = "SET-USER-STATUS";
 const SAVE_PHOTO_SUCCESS = "SAVE-PHOTO-SUCCESS";
+const SHOW_GLOBAL_ERROR = "SHOW-GLOBAL-ERROR";
 
 let initialState = {
   posts: [
@@ -13,7 +14,8 @@ let initialState = {
     { id: 2, message: "It's my first post", likesCount: 20 },
   ],
   profile: null,
-  userStatus: ""
+  userStatus: "",
+  globalError: null
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -50,6 +52,10 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state, profile: {...state.profile, photos: action.photos},
       }
+    case SHOW_GLOBAL_ERROR:
+      return {
+        ...state, globalError: action.error,
+      }
     default:
       return state;
   }
@@ -74,11 +80,17 @@ export const getUserStatus = userId => async (dispatch) => {
   dispatch(setUserStatus(response));
 }
 
-export const updateUserStatus = status => async (dispatch) => {
-  const response = await profileAPI.updateUserStatus(status);
+const showError = (error) => ({type: SHOW_GLOBAL_ERROR, error})
 
-  if (response.resultCode === 0) {
-      dispatch(setUserStatus(status));
+export const updateUserStatus = status => async (dispatch) => {
+  try {
+    const response = await profileAPI.updateUserStatus(status);
+
+    if (response.resultCode === 0) {
+        dispatch(setUserStatus(status));
+    }
+  } catch(error) {
+    dispatch(showError(error));
   }
 }
 
