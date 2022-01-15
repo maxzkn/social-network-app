@@ -43,7 +43,7 @@ let store = {
   },
 
   subscribe(observer) {
-    this._callSubscriber = observer;
+    this._callSubscriber = observer; // передается функция (кто-то в качестве обсервер) в _callSubscriber (_callSubscriber перезаписывается)
   },
 
   // setState(value) {
