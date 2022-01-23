@@ -1,6 +1,6 @@
 import {usersAPI} from "../api/api";
 import {updateObjectProp} from "../utils/helpers/updateObjectProp";
-import {PhotosType, UserType} from "../types/types";
+import {UserType} from "../types/types";
 
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
@@ -143,7 +143,7 @@ const followUnfollowFlow = async (dispatch: any, userId: number, apiMethod: any,
 }
 
 export const unfollowUser = (userId: number) => async (dispatch: any) => {
-  let apiMethod = usersAPI.unfollowUser.bind(usersAPI);
+  let apiMethod = usersAPI.unfollowUser.bind(usersAPI); // на всякий случай - мы берем метод у обьекта и мы не знаем этот метод будет использовать this, а вызывать будем оторванно от обьекта поэтому контекст моэет потеряться
   await followUnfollowFlow(dispatch, userId, apiMethod, unfollow);
 }
 
