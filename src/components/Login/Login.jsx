@@ -12,7 +12,7 @@ import styles from "../common/FormControls/FormControls.module.css";
 const maxLength30 = maxLengthCreator(30);
 const Input = FormControl("input");
 
-const LoginForm = ({handleSubmit, error, captchaURL}) => {
+const LoginForm = ({ handleSubmit, error, captchaURL }) => {
     return (
         <form onSubmit={handleSubmit}>
             {createField("Email", "email", Input, [required, maxLength30])}
@@ -42,7 +42,7 @@ const LoginReduxForm = reduxForm({
 
 const Login = (props) => {
     const onSubmit = (formData) => {
-        const {email, password, rememberMe, captcha} = formData;
+        const { email, password, rememberMe, captcha } = formData;
         props.login(email, password, rememberMe, captcha);
     }
 

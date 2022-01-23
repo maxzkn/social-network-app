@@ -1,6 +1,17 @@
 // const UPDATE_NEW_MESSAGE_BODY = "UPDATE-NEW-MESSAGE-BODY";
 const SEND_MESSAGE = "SEND-MESSAGE";
 
+type DialogType = {
+  id: number
+  name: string
+  src: string
+}
+
+type MessageType = {
+  id: number
+  message: string
+}
+
 let initialState = {
   dialogs: [
     { id: 1, name: "Max", src: "../../../assets/images/avatar.png" },
@@ -9,16 +20,18 @@ let initialState = {
     { id: 4, name: "Viktor", src: "../../../assets/images/avatar.png" },
     { id: 5, name: "JJ", src: "../../../assets/images/avatar.png" },
     { id: 6, name: "Batman", src: "../../../assets/images/avatar.png" },
-  ],
+  ] as Array<DialogType>,
   messages: [
     { id: 1, message: "Hi" },
     { id: 2, message: "Hi, how are u?" },
     { id: 3, message: "Fine, thanks" },
-  ],
+  ] as Array<MessageType>,
   // newMessageBody: "",
 };
 
-const dialogsReducer = (state = initialState, action) => {
+export type InitialStateType = typeof initialState
+
+const dialogsReducer = (state = initialState, action: any): InitialStateType => {
 
   switch (action.type) {
     // case UPDATE_NEW_MESSAGE_BODY:
@@ -32,7 +45,7 @@ const dialogsReducer = (state = initialState, action) => {
       return {
         ...state,
         // newMessageBody: "",
-        messages: [...state.messages, { id: 6, message: action.body }],
+        messages: [...state.messages, { id: 6, message: action.newMessageBody }],
       };
     //   state.dialogsPage.messages.push(msg);
     //   state.dialogsPage.newMessageBody = "";
@@ -45,9 +58,14 @@ const dialogsReducer = (state = initialState, action) => {
 
 export default dialogsReducer;
 
-export const sendMessageCreator = (body) => ({ type: SEND_MESSAGE, body });
+type SendMessageCreatorType = {
+  type: typeof SEND_MESSAGE
+  newMessageBody: string
+}
 
-// export const updateNewMessageBodyCreator = (body) => ({
+export const sendMessageCreator = (newMessageBody: string): SendMessageCreatorType => ({ type: SEND_MESSAGE, newMessageBody });
+
+// export const updateNewMessagenewMessageBodyCreator = (newMessageBody) => ({
 //   type: UPDATE_NEW_MESSAGE_BODY,
-//   newMessage: body,
+//   newMessage: newMessageBody,
 // });
