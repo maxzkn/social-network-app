@@ -1,6 +1,7 @@
 import React from "react";
 import Paginator from "../common/Paginator/Paginator";
 import User from "./User";
+import {UserType} from "../../types/types";
 
 // const Users = (props) => {
 
@@ -15,7 +16,7 @@ import User from "./User";
 //   return (
 //     <div>
 //       <button onClick={requestUsers}>Fetch users</button>
-//       {props.users.map( user => 
+//       {props.users.map( user =>
 //         <div key={user.id}>
 //           <div>
 //             <img className={styles.image} src={user.photos.small ? user.photos.small : defaultPic} alt="" />
@@ -36,7 +37,18 @@ import User from "./User";
 //     </div>
 //   )};
 
-const Users = ({
+type UsersPropsType = {
+    currentPage: number,
+    onPageChange: () => void,
+    totalItemsCount: number,
+    pageSize: number,
+    users: Array<UserType>,
+    followUser: (userId: number) => void,
+    unfollowUser: (userId: number) => void,
+    userFollowInProgress: Array<number>,
+}
+
+const Users: React.FC<UsersPropsType> = ({
                    currentPage,
                    onPageChange,
                    // onPortionNumberChange,
@@ -52,7 +64,7 @@ const Users = ({
         <div>
             <Paginator currentPage={currentPage}
                        onPageChange={onPageChange}
-                       // onPortionNumberChange={onPortionNumberChange}
+                       // onPortionNumberChange={onPortionNu mberChange}
                        totalItemsCount={totalItemsCount}
                        pageSize={pageSize}
                        // portionNumber={portionNumber}

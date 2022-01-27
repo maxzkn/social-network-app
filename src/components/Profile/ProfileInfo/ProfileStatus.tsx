@@ -1,6 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 
-// class ProfileStatus extends React.Component {
+// type PropsType = {
+//     ...
+// }
+//
+// type StateType = {
+//     ...
+// }
+
+// class ProfileStatus extends React.Component<PropsType, StateType> {
 //     // constructor(props) {
 //     //     super(props);
 //     //     this.state = {
@@ -38,7 +46,7 @@ import React, {useEffect, useState} from "react";
 //     // Затем, когда уже от сервера приходит ответ со статусом, то происходит новый рендер, где мы видим статус на странице, так как он записался в глобальный стейт и соответственно есть в глобальных пропсах, НО статус в ЛОКАЛЬНОМ стейте НЕ МЕНЯЕТСЯ и остается ПУСТЫМ. В итоге при даблклике в инпуте будет пустота.
 //     // Тут самое главное понять, что рендер происходит молниеносно. Мы не видим первый рендер с пустым статусом, а видим только итог второго, когда статус уже пришёл и отображается на странице, но не в импуте. Так как локальный стейт уже сформировался с пустым статусом в первом рендере, то во втором рендере статус туда уже не запишется и поэтому будет пустой инпут.
 //     // Для этого нам и нужен componentDidUpdate, который всегда вызывается при каждом новом рендере. Когда у нас происходит второй рендер, мы сверяем старые пропсы в локальном стейте с новыми пропсами из глобального. Если они различаются, то с помощью setState изменяем пустой статус в пропсах локального стейта на новый статус, который пришел в новых пропсах.
-//     componentDidUpdate(prevProps, prevState) {
+//     componentDidUpdate(prevProps: PropsType, prevState: StateType) {
 //         if (prevProps.userStatus !== this.props.userStatus) {
 //             this.setState({
 //                 userStatus: this.props.userStatus
@@ -66,8 +74,14 @@ import React, {useEffect, useState} from "react";
 //     }
 // };
 
+type ProfileStatusType = {
+    userStatus: string
+    updateUserStatus: (status: string) => void
+    globalError: any
+}
+
 // ProfileStatus with hooks
-const ProfileStatus = (props) => {
+const ProfileStatus = (props: ProfileStatusType) => {
     // const stateWithSetState = useState(false);
     // const isEditMode = stateWithSetState[0];
     // const setIsEditMode = stateWithSetState[1];
@@ -84,7 +98,7 @@ const ProfileStatus = (props) => {
         props.updateUserStatus(status);
     }
 
-    const onStatusChange = (e) => {
+    const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value);
     }
 

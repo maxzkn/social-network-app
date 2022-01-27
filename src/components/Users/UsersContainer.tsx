@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import {
     followUser,
     unfollowUser,
-    requestUsers, changePortionNumber
+    requestUsers,
 } from "../../redux/usersReducer";
 import Users from "./Users";
 import Preloader from "../common/preloader/Preloader";
@@ -15,14 +15,39 @@ import {
     getIsFetching,
     gettotalItemsCount,
     getUserFollowInProgress,
-    getUsers, getPortionNumber,
+    getUsers,
     // getUsersSuperSelector
 } from "../selectors/users-selectors";
+import {UserType} from "../../types/types";
+import {AppStateType} from "../../redux/redux-store";
 
 // TWO containers here:
 // UsersContainer is wrapped with another container by connect()
+// const connector = connect(mapState, mapDispatch) // HOC
+// export default connector(UsersContainer) // pass UsersContainer to HOC
 
-class UsersContainer extends React.Component {
+type MapStatePropsType = {
+    users: Array<UserType>
+    pageSize: number
+    currentPage: number
+    totalItemsCount: number
+    isFetching: boolean
+    userFollowInProgress: Array<number>
+}
+
+type MapDispatchPropsType = {
+    followUser: (userId: number) => void
+    unfollowUser: (userId: number) => void
+    requestUsers: (currentPage: number, pageSize: number) => void
+}
+
+type OwnPropsType = {
+    pageTitle: string
+}
+
+type UsersContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+
+class UsersContainer extends React.Component<UsersContainerPropsType> {
 
     // isn't necessary bc React does it by default, but if we want to also add smth or change, then
     // add a constructor
@@ -41,7 +66,7 @@ class UsersContainer extends React.Component {
         // });
     }
 
-    onPageChange = pageNumber => {
+    onPageChange = (pageNumber: number) => {
         const { pageSize } = this.props;
         this.props.requestUsers(pageNumber, pageSize);
     }
@@ -56,10 +81,10 @@ class UsersContainer extends React.Component {
                 {this.props.isFetching ? <Preloader /> : 
                     <Users
                         pageSize={this.props.pageSize}
-                        portionNumber={this.props.portionNumber}
+                        // portionNumber={this.props.portionNumber}
                         totalItemsCount={this.props.totalItemsCount}
                         currentPage={this.props.currentPage}
-                        onPageChange={this.onPageChange}
+                        onPageChange={() => this.onPageChange}
                         // onPortionNumberChange={this.onPortionNumberChange}
                         followUser={this.props.followUser}
                         unfollowUser={this.props.unfollowUser}
@@ -83,7 +108,7 @@ class UsersContainer extends React.Component {
 //   };
 // };
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     users: getUsers(state),
     // users: getUsersSuperSelector(state),
@@ -129,5 +154,6 @@ let mapStateToProps = (state) => {
 //     requestUsers
 // })(UsersContainer));
 export default compose(
-    connect(mapStateToProps, { followUser, unfollowUser, requestUsers, /* changePortionNumber */ })
+    // Cmd + click -> generic types for connect
+    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, { followUser, unfollowUser, requestUsers, /* changePortionNumber */ })
 )(UsersContainer);
